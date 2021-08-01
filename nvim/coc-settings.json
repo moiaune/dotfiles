@@ -1,0 +1,29 @@
+{
+  "languageserver": {
+    "terraform": {
+      "command": "terraform-ls",
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf"],
+      "initializationOptions": {},
+      "settings": {}
+    }
+  },
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "html",
+    "css",
+    "json",
+    "markdown",
+    "go"
+  ],
+  "suggest.noselect": false,
+  "diagnostic.warningSign": "!",
+  "diagnostic.infoSign": "?",
+  "diagnostic.checkCurrentLine": true,
+  "powershell.integratedConsole.showOnStartup": false,
+  "powershell.codeFormatting.useConstantStrings": true,
+  "powershell.codeFormatting.newLineAfterCloseBrace": false,
+  "javascript.preferences.quoteStyle": "single",
+  "prettier.singleQuote": true,
+  "html.format.wrapAttributes": "force-aligned"
+}

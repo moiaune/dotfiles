@@ -1,0 +1,24 @@
+# --- Alacritty Config
+# Author: Mads Moi-Aune
+# Github: github.com/madsaune
+
+window:
+  startup_mode: Fullscreen
+
+live_config_reload: true
+
+font:
+  normal:
+    family: JetBrains Mono
+    style: Regular
+
+  bold:
+    family: JetBrains Mono
+    style: Bold
+
+  italic:
+    family: JetBrains Mono
+    style: Italic
+
+
+  size: 11.0
