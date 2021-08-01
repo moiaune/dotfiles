@@ -10,4 +10,5 @@ ln -s ~/code/github.com/madsaune/dotfiles/.tmux.conf ~/.tmux.conf
 mkdir ~/.config/tiny
 cp ~/code/github.com/madsaune/dotfiles/tiny/config.yml ~/.config/tiny/config.yml
 
-
+cp ~/code/github.com/madsaune/dotfiles/lynx/duckduckgo /usr/local/bin
+chmod +x /usr/local/bin/duckduckgo
