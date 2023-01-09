@@ -29,9 +29,7 @@ bind '"\e[B": history-search-forward'
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
-# OH_MY_POSH_THEMES_DIR=$(brew --prefix oh-my-posh)/themes
 OH_MY_POSH_THEMES_DIR="$HOME/code/github.com/madsaune/milbo-omp-theme"
-# eval "$(oh-my-posh --init --shell bash --config "$OH_MY_POSH_THEMES_DIR/milbo.omp.json")"
 eval "$(oh-my-posh init bash --config "$OH_MY_POSH_THEMES_DIR"/milbo.omp.yml)"
 
 function mkcd()
@@ -58,6 +56,7 @@ alias tfmt="terraform fmt -recursive"
 alias ctfmt="terraform fmt -check -recursive"
 alias vim="nvim"
 alias vi="nvim"
+alias gh="cd ~/code/github.com"
 
 # ----------------------
 # Git Aliases
@@ -74,3 +73,8 @@ alias gps='git push'
 # FZF AUTO COMPLETE && KEY BINDING
 # ----------------------
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# ----------------------
+# GIT AUTOCOMPLETE
+# ----------------------
+[ -f ~/.git-completion.bash ] && source ~/.git-completion.bash
