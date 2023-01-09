@@ -11,8 +11,8 @@ require('lualine').setup{
         lualine_c = { "buffers" },
         lualine_x = { "encoding", "filetype" },
         lualine_y = { "progress" },
-        lualine_z = {
-            { "diagnostics",
+        lualine_z = {{
+            "diagnostics",
               sources = { "nvim_diagnostic", "nvim_lsp" },
               sections = { "error", "warn" },
               diagnostics_color = {
@@ -24,7 +24,6 @@ require('lualine').setup{
               colored = true,
               update_in_insert = false,
               always_visible = true,
-          },
-      },
-  }
+        }},
+    }
 }
