@@ -1,0 +1,70 @@
+snippet cmt
+# -----------------------------------------------------------------------------
+#     - $1-
+# -----------------------------------------------------------------------------$0
+endsnippet
+
+snippet cmthelp
+<#
+.SYNOPSIS
+	short one-line action-based description, e.g. 'Tests if a function is valid'
+.DESCRIPTION
+	A longer description of the function, its purpose, common use cases, etc.
+.NOTES
+	Information or caveats about the function e.g. 'This function is not supported in Linux'
+.LINK
+	Specify a URI to a help page, this will show when Get-Help -Online is used.
+.EXAMPLE
+	Test-MyTestFunction -Verbose
+	Explanation of the function or its result. You can include multiple examples with additional .EXAMPLE lines
+#>
+
+$1
+endsnippet
+
+snippet chelp
+<#
+.SYNOPSIS
+$1
+
+.DESCRIPTION
+$2
+
+.PARAMETER $3
+$4
+
+.INPUTS
+None. You cannot pipe objects to Update-Month.ps1.
+
+.OUTPUTS
+None. Update-Month.ps1 does not generate any output.
+
+.EXAMPLE
+PS> .\Update-Month.ps1
+
+.EXAMPLE
+PS> .\Update-Month.ps1 -inputpath C:\Data\January.csv
+
+.LINK
+http://www.fabrikam.com/extension.html
+
+#>
+endsnippet
+
+snippet func
+function $1 {
+	[CmdletBinding()]
+	Param(
+		[Parameter()]
+		[$2]
+		$3
+	)
+
+	begin {}
+
+	process {
+		$4
+	}
+
+	end {}
+endsnippet
