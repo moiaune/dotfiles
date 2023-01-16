@@ -5,7 +5,8 @@ using namespace System.Management.Automation.Language
 #     - MODULES -
 # -----------------------------------------------------------------------------
 
-Import-Module -Name Get-ChildItemColor
+# Import-Module -Name Get-ChildItemColor
+Import-Module -Name Terminal-Icons
 Import-Module -Name PSFzf
 Import-Module -Name posh-git
 
@@ -166,11 +167,14 @@ Set-PSReadLineOption -AddToHistoryHandler {
     return ($line -notmatch $sensitive)
 }
 
-# --- ALIASES
-function ListFilesAndFolders { Get-ChildItem -Path . }
+# -----------------------------------------------------------------------------
+#     - ALIASES -
+# -----------------------------------------------------------------------------
+function devops { Set-Location /Users/mm/code/dev.azure.com }
+function ListFilesAndFolders { param([string]$path = ".") Get-ChildItem -Path $path }
 Set-Alias -Name ll -Value ListFilesAndFolders
 
-function ListAllFilesAndFolders { Get-ChildItem -Path . -Force }
+function ListAllFilesAndFolders { param([string]$path = ".") Get-ChildItem -Path $path -Force }
 Set-Alias -Name la -Value ListAllFilesAndFolders
 
 function GitCommitAlias { git commit -m $args[0] }
@@ -178,6 +182,9 @@ Set-Alias -Name gcmm -Value GitCommitAlias
 
 function GitStatusAll { git status -uall }
 Set-Alias -Name gsa -Value GitStatusAll
+
+function GitCommitPatch { git commit -p }
+Set-Alias -Name gcp -Value GitCommitPatch
 
 function TerraformCheckFormatting { terraform fmt -check -recursive }
 Set-Alias -Name tcfmt -Value TerraformCheckFormatting
