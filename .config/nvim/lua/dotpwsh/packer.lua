@@ -9,6 +9,7 @@ return require('packer').startup(function(use)
   -- themes
   use 'folke/tokyonight.nvim'
   use({ 'rose-pine/neovim', as = 'rose-pine' })
+  use 'tanvirtin/monokai.nvim'
 
   -- lsp
   use 'neovim/nvim-lspconfig'
@@ -20,17 +21,17 @@ return require('packer').startup(function(use)
   use 'SirVer/ultisnips'
   use 'quangnguyen30192/cmp-nvim-ultisnips'
 
+  -- telescope
+  use 'nvim-lua/plenary.nvim'
+  use 'nvim-telescope/telescope.nvim'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
   -- formatter for Powershell
   use 'JayDoubleu/vim-pwsh-formatter'
 
   -- fzf
   use {'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
   use 'junegunn/fzf.vim'
-
-  -- telescope
-  use 'nvim-lua/plenary.nvim'
-  use 'nvim-telescope/telescope.nvim'
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }

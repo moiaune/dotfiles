@@ -109,6 +109,11 @@ _G.packer_plugins = {
     path = "/Users/mm/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
+  ["monokai.nvim"] = {
+    loaded = true,
+    path = "/Users/mm/.local/share/nvim/site/pack/packer/start/monokai.nvim",
+    url = "https://github.com/tanvirtin/monokai.nvim"
+  },
   neoformat = {
     loaded = true,
     path = "/Users/mm/.local/share/nvim/site/pack/packer/start/neoformat",
@@ -159,6 +164,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/mm/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["todo-comments.nvim"] = {
+    loaded = true,
+    path = "/Users/mm/.local/share/nvim/site/pack/packer/start/todo-comments.nvim",
+    url = "https://github.com/folke/todo-comments.nvim"
   },
   ["tokyonight.nvim"] = {
     loaded = true,
