@@ -237,6 +237,12 @@ require("mason").setup({
 })
 
 -- -----------------------------
+-- ---        LUASNIP        ---
+-- -----------------------------
+-- load snippets from path/of/your/nvim/config/my-cool-snippets
+require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets" } })
+
+-- -----------------------------
 -- ---   AUTOCOMPLETE (CMP)  ---
 -- -----------------------------
 local cmp = require("cmp")
@@ -293,8 +299,8 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-    vim.keymap.set('n', '<leader>dj', vim.diagnostics.goto_next, bufopts)
-    vim.keymap.set('n', '<leader>dk', vim.diagnostics.goto_prev, bufopts)
+    vim.keymap.set('n', '<leader>dj', vim.diagnostic.goto_next, bufopts)
+    vim.keymap.set('n', '<leader>dk', vim.diagnostic.goto_prev, bufopts)
 
     vim.cmd([[
         augroup formatting
