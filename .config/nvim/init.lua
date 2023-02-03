@@ -87,7 +87,7 @@ vim.opt.colorcolumn = '115'
 vim.cmd('highlight ColorColumn ctermbg=darkgray')
 
 -- ???
-vim.opt.completeopt = "menuone,noselect"
+vim.opt.completeopt = "menu,menuone,noselect"
 
 -- Make comments use italic
 vim.api.nvim_set_hl(0, 'Comment', { cterm = { italic = true } })
@@ -114,6 +114,7 @@ require('packer').startup(function(use)
     use 'hrsh7th/cmp-path'
     use 'L3MON4D3/LuaSnip'
     use 'saadparwaiz1/cmp_luasnip'
+    use "rafamadriz/friendly-snippets"
 
     -- telescope
     use 'nvim-lua/plenary.nvim'
@@ -183,7 +184,7 @@ require('lualine').setup {
         lualine_y = { "progress" },
         lualine_z = { {
             "diagnostics",
-            sources = { "nvim_diagnostic", "nvim_lsp" },
+            sources = { "nvim_workspace_diagnostic", "nvim_lsp" },
             sections = { "error", "warn" },
             diagnostics_color = {
                 -- Same values as the general color option can be used here.
@@ -245,43 +246,61 @@ require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets" } })
 -- -----------------------------
 -- ---   AUTOCOMPLETE (CMP)  ---
 -- -----------------------------
+local has_words_before = function()
+    unpack = unpack or table.unpack
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local luasnip = require("luasnip")
 local cmp = require("cmp")
 cmp.setup({
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-    end,
-  },
-  mapping = {
-    ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end,
-    ['<CR>'] = function(fallback)
-      if cmp.visible() then
-        cmp.confirm()
-      else
-        fallback()
-      end
-    end
-  },
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        end,
+    },
+    window = {
+        completion = cmp.config.window.bordered(),
+    },
+    mapping = {
+        ['<Tab>'] = function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback()
+            end
+        end,
+        ['<CR>'] = function(fallback)
+            if cmp.visible() then
+                cmp.confirm()
+            else
+                fallback()
+            end
+        end
+    },
 
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' }, -- For luasnip users.
-  }, {
-    { name = 'buffer' },
-  })
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'luasnip', option = { show_autosnippets = true } }, -- For luasnip users.
+    }, {
+        { name = 'buffer' },
+    })
 })
 
 -- -----------------------------
 -- ---         LSP           ---
 -- -----------------------------
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = vim.tbl_deep_extend(
+    "force",
+    require("lspconfig").util.default_config.capabilities,
+    require('cmp_nvim_lsp').default_capabilities()
+)
 
 local on_attach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
@@ -306,15 +325,6 @@ local on_attach = function(client, bufnr)
         augroup formatting
             autocmd! * <buffer>
             autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
-        augroup END
-    ]])
-
-    -- Set autocommands conditional on server_capabilities
-    vim.cmd([[
-        augroup lsp_document_highlight
-            autocmd! * <buffer>
-            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
         augroup END
     ]])
 end
@@ -353,6 +363,16 @@ require('lspconfig')['powershell_es'].setup {
     bundle_path = '/Users/mm/.config/PowerShellEditorServices',
     capabilities = capabilities,
     on_attach = on_attach,
+    settings = {
+        powershell = {
+            codeFormatting = {
+                pipelineIndentationStyle = "IncreaseIndentationForFirstPipeline",
+                trimWhitespaceAroundPipe = true,
+                whitespaceBetweenParameters = true,
+                newLineAfterCloseBrace = false,
+            }
+        }
+    }
 }
 
 require('lspconfig')['bicep'].setup {
@@ -372,11 +392,6 @@ require("lspconfig")["html"].setup {
 }
 
 require("lspconfig")["cssls"].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-}
-
-require("lspconfig")["jsonls"].setup {
     capabilities = capabilities,
     on_attach = on_attach,
 }
