@@ -11,11 +11,12 @@ vim.cmd [[
     syntax on
     filetype plugin indent on
     colorscheme monokai_pro
+    colorscheme everforest
 ]]
 
 vim.opt.encoding = 'utf-8'
 vim.opt.termguicolors = true
-vim.opt.background = 'dark'
+vim.opt.background = 'light'
 vim.opt.regexpengine = 1
 
 -- relative numbers
@@ -105,6 +106,7 @@ require('packer').startup(function(use)
 
     -- themes
     use 'tanvirtin/monokai.nvim'
+    use 'sainnhe/everforest'
 
     -- lsp
     use 'neovim/nvim-lspconfig'
@@ -116,10 +118,12 @@ require('packer').startup(function(use)
     use 'saadparwaiz1/cmp_luasnip'
     use "rafamadriz/friendly-snippets"
 
+    -- language specifics
+    use 'carlsmedstad/vim-bicep'
+
     -- telescope
     use 'nvim-lua/plenary.nvim'
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-    use 'nvim-tree/nvim-web-devicons'
     use 'nvim-telescope/telescope.nvim'
 
     -- formatter for Powershell
@@ -139,9 +143,41 @@ require('packer').startup(function(use)
     use 'tpope/vim-surround'
     use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
     use { 'folke/todo-comments.nvim', requires = 'nvim-lua/plenary.nvim' }
-
 end)
 
+-- -----------------------------
+-- ---      TELESCOPE        ---
+-- -----------------------------
+
+require('telescope').setup {
+    pickers = {
+        find_files = {
+            disable_devicons = true
+        },
+        live_grep = {
+            disable_devicons = true
+        },
+        buffers = {
+            disable_devicons = true
+        },
+        help_tags = {
+            disable_devicons = true
+        },
+        diagnostics = {
+            disable_devicons = true
+        },
+        git_commits = {
+            disable_devicons = true
+        },
+    },
+}
+
+-- -----------------------------
+-- ---    VIM-COMMENTARY     ---
+-- -----------------------------
+vim.cmd [[
+    autocmd FileType terraform setlocal commentstring=#\ %s
+]]
 
 -- -----------------------------
 -- ---      TREESITTER       ---
@@ -171,7 +207,7 @@ require('nvim-treesitter.configs').setup {
 
 require('lualine').setup {
     options = {
-        theme = 'auto',
+        theme = 'everforest',
         icons_enabled = true,
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
@@ -283,7 +319,6 @@ cmp.setup({
             end
         end
     },
-
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'luasnip', option = { show_autosnippets = true } }, -- For luasnip users.
@@ -329,7 +364,7 @@ local on_attach = function(client, bufnr)
     ]])
 end
 
-require("lspconfig")["sumneko_lua"].setup {
+require("lspconfig")["lua_ls"].setup {
     capabilities = capabilities,
     on_attach = on_attach,
 }
@@ -375,10 +410,13 @@ require('lspconfig')['powershell_es'].setup {
     }
 }
 
+local lsputil = require('lspconfig/util')
 require('lspconfig')['bicep'].setup {
     capabilities = capabilities,
-    cmd = { "dotnet", "/usr/local/bin/bicep-langserver/Bicep.LangServer.dll" },
     on_attach = on_attach,
+    cmd = { "dotnet", "/usr/local/bin/bicep-langserver/Bicep.LangServer.dll" },
+    filetypes = { "bicep" },
+    root_dir = lsputil.root_pattern(".git"),
 }
 
 require("lspconfig")["tsserver"].setup {
@@ -392,6 +430,11 @@ require("lspconfig")["html"].setup {
 }
 
 require("lspconfig")["cssls"].setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+}
+
+require("lspconfig")["jsonls"].setup {
     capabilities = capabilities,
     on_attach = on_attach,
 }
@@ -451,6 +494,7 @@ vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
 vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<cr>")
 vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>")
 vim.keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>")
+vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>")
 
 -- todo-comments
 vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>")
