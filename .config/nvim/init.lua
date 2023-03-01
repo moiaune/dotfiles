@@ -399,12 +399,12 @@ require('lspconfig')['powershell_es'].setup {
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
-        powershell = {
+        ["powershell"] = {
             codeFormatting = {
                 pipelineIndentationStyle = "IncreaseIndentationForFirstPipeline",
                 trimWhitespaceAroundPipe = true,
                 whitespaceBetweenParameters = true,
-                newLineAfterCloseBrace = false,
+                openBraceOnSameLine = true,
             }
         }
     }
