@@ -19,8 +19,8 @@ window:
   # Units are physical pixels; this is not DPI aware.
   # (change requires restart)
   padding:
-    x: 2
-    y: 2
+    x: 5
+    y: 5
 
   # Window decorations
   #
@@ -38,7 +38,7 @@ window:
   #     - none: Neither borders nor title bar
   #     - buttonless: Title bar, transparent background and title bar buttons
   #     - transparent: Title bar, transparent background, but no title bar buttons
-  decorations: none
+  decorations: full
 
   # Startup Mode (changes require restart)
   startup_mode: Windowed
@@ -49,7 +49,7 @@ draw_bold_text_with_bright_colors: false
 
 cursor:
   style:
-    shape: Beam
+    shape: block
     blinking: On
 
 # Sample Font configuration for font: Monoid.
@@ -84,7 +84,7 @@ font:
     style: Book
 
   # Font size
-  size: 16.0
+  size: 14.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing
@@ -134,253 +134,31 @@ key_bindings:
   - { key: Key8,     mods: Alt,           chars: "\x5B"                    } # [
   - { key: Key9,     mods: Alt,           chars: "\x5D"                    } # ]
 
-# Monokai Pro
+# Colors (Everforest Light)
 colors:
   # Default colors
   primary:
-    background: '0x2D2A2E'
-    foreground: '0xfff1f3'
+    background: '0xfdf6e3'
+    foreground: '0x5c6a72'
 
   # Normal colors
   normal:
-    black:   '0x2c2525'
-    red:     '0xfd6883'
-    green:   '0xadda78'
-    yellow:  '0xf9cc6c'
-    blue:    '0xf38d70'
-    magenta: '0xa8a9eb'
-    cyan:    '0x85dacc'
-    white:   '0xfff1f3'
+    black:   '0x5c6a72'
+    red:     '0xf85552'
+    green:   '0x8da101'
+    yellow:  '0xdfa000'
+    blue:    '0x3a94c5'
+    magenta: '0xdf69ba'
+    cyan:    '0x35a77c'
+    white:   '0xe0dcc7'
 
-  # Bright colors
+  # Bright Colors
   bright:
-    black:   '0x72696a'
-    red:     '0xfd6883'
-    green:   '0xadda78'
-    yellow:  '0xf9cc6c'
-    blue:    '0xf38d70'
-    magenta: '0xa8a9eb'
-    cyan:    '0x85dacc'
-    white:   '0xfff1f3'
-
-# Rose Pine 
-# colors:
-#   primary:
-#     background: "0x191724"
-#     foreground: "0xe0def4"
-#   cursor:
-#     text: "0xe0def4"
-#     cursor: "0x524f67"
-#   vi_mode_cursor:
-#     text: "0xe0def4"
-#     cursor: "0x524f67"
-#   line_indicator:
-#     foreground: None
-#     background: None
-#   selection:
-#     text: "0xe0def4"
-#     background: "0x403d52"
-#   normal:
-#     black: "0x26233a"
-#     red: "0xeb6f92"
-#     green: "0x31748f"
-#     yellow: "0xf6c177"
-#     blue: "0x9ccfd8"
-#     magenta: "0xc4a7e7"
-#     cyan: "0xebbcba"
-#     white: "0xe0def4"
-#   bright:
-#     black: "0x6e6a86"
-#     red: "0xeb6f92"
-#     green: "0x31748f"
-#     yellow: "0xf6c177"
-#     blue: "0x9ccfd8"
-#     magenta: "0xc4a7e7"
-#     cyan: "0xebbcba"
-#     white: "0xe0def4"
-#   hints:
-#     start:
-#       foreground: "#908caa"
-#       background: "#1f1d2e"
-#     end:
-#       foreground: "#6e6a86"
-#       background: "#1f1d2e"
-
-# Catppuccin!
-# colors:
-#   # Default colors
-#   primary:
-#     background: '0x1E1D2F'
-#     foreground: '0xD9E0EE'
-
-#   # Colors the cursor will use if `custom_cursor_colors` is true
-#   cursor:
-#     text: '0x1E1D2F'
-#     cursor: '0xF5E0DC'
-
-#   # Normal colors
-#   normal:
-#     black:   '0x6E6C7E'
-#     red:     '0xF28FAD'
-#     green:   '0xABE9B3'
-#     yellow:  '0xFAE3B0'
-#     blue:    '0x96CDFB'
-#     magenta: '0xF5C2E7'
-#     cyan:    '0x89DCEB'
-#     white:   '0xD9E0EE'
-
-#   # Bright colors
-#   bright:
-#     black:   '0x988BA2'
-#     red:     '0xF28FAD'
-#     green:   '0xABE9B3'
-#     yellow:  '0xFAE3B0'
-#     blue:    '0x96CDFB'
-#     magenta: '0xF5C2E7'
-#     cyan:    '0x89DCEB'
-#     white:   '0xD9E0EE'
-
-#   indexed_colors:
-#     - { index: 16, color: '0xF8BD96' }
-#     - { index: 17, color: '0xF5E0DC' }
-
-# Colors (Ayu Dark)
-# colors:
-#   # Default colors
-#   primary:
-#     background: '#0A0E14'
-#     foreground: '#B3B1AD'
-
-#   # Normal colors
-#   normal:
-#     black: '#01060E'
-#     red: '#EA6C73'
-#     green: '#91B362'
-#     yellow: '#F9AF4F'
-#     blue: '#53BDFA'
-#     magenta: '#FAE994'
-#     cyan: '#90E1C6'
-#     white: '#C7C7C7'
-
-#   # Bright colors
-#   bright:
-#     black: '#686868'
-#     red: '#F07178'
-#     green: '#C2D94C'
-#     yellow: '#FFB454'
-#     blue: '#59C2FF'
-#     magenta: '#FFEE99'
-#     cyan: '#95E6CB'
-#     white: '#FFFFFF'
-# Colors (Ayu Mirage)
-# colors:
-#   # Default colors
-#   primary:
-#     background: '#202734'
-#     foreground: '#CBCCC6'
-
-#   # Normal colors
-#   normal:
-#     black: '#191E2A'
-#     red: '#FF3333'
-#     green: '#BAE67E'
-#     yellow: '#FFA759'
-#     blue: '#73D0FF'
-#     magenta: '#FFD580'
-#     cyan: '#95E6CB'
-#     white: '#C7C7C7'
-
-#   # Bright colors
-#   bright:
-#     black: '#686868'
-#     red: '#F27983'
-#     green: '#A6CC70'
-#     yellow: '#FFCC66'
-#     blue: '#5CCFE6'
-#     magenta: '#FFEE99'
-#     cyan: '#95E6CB'
-#     white: '#FFFFFF'
-
-# Colors (Gruvbox Material Dark Medium)
-# colors:
-#   primary:
-#     background: '0x282828'
-#     foreground: '0xdfbf8e'
-
-#   normal:
-#     black:   '0x665c54'
-#     red:     '0xea6962'
-#     green:   '0xa9b665'
-#     yellow:  '0xe78a4e'
-#     blue:    '0x7daea3'
-#     magenta: '0xd3869b'
-#     cyan:    '0x89b482'
-#     white:   '0xdfbf8e'
-
-#   bright:
-#     black:   '0x928374'
-#     red:     '0xea6962'
-#     green:   '0xa9b665'
-#     yellow:  '0xe3a84e'
-#     blue:    '0x7daea3'
-#     magenta: '0xd3869b'
-#     cyan:    '0x89b482'
-#     white:   '0xdfbf8e'
-
-# Colors (Gruvbox dark)
-# colors:
-#   # Default colors
-#   primary:
-#     background: '#1d2021'
-#     foreground: '#ebdbb2'
-
-#   # Normal colors
-#   normal:
-#     black: '#282828'
-#     red: '#cc241d'
-#     green: '#98971a'
-#     yellow: '#d79921'
-#     blue: '#458588'
-#     magenta: '#b16286'
-#     cyan: '#689d6a'
-#     white: '#a89984'
-
-#   # Bright colors
-#   bright:
-#     black: '#928374'
-#     red: '#fb4934'
-#     green: '#b8bb26'
-#     yellow: '#fabd2f'
-#     blue: '#83a598'
-#     magenta: '#d3869b'
-#     cyan: '#8ec07c'
-#     white: '#ebdbb2'
-
-# Colors (Material Theme)
-# colors:
-#   # Default colors
-#   primary:
-#     background: '0x1e282d'
-#     foreground: '0xc4c7d1'
-
-#   # Normal colors
-#   normal:
-#     black:   '0x666666'
-#     red:     '0xeb606b'
-#     green:   '0xc3e88d'
-#     yellow:  '0xf7eb95'
-#     blue:    '0x80cbc4'
-#     magenta: '0xff2f90'
-#     cyan:    '0xaeddff'
-#     white:   '0xffffff'
-
-#   # Bright colors
-#   bright:
-#     black:   '0xff262b'
-#     red:     '0xeb606b'
-#     green:   '0xc3e88d'
-#     yellow:  '0xf7eb95'
-#     blue:    '0x7dc6bf'
-#     magenta: '0x6c71c4'
-#     cyan:    '0x35434d'
-#     white:   '0xffffff'
+    black:   '0x5c6a72'
+    red:     '0xf85552'
+    green:   '0x8da101'
+    yellow:  '0xdfa000'
+    blue:    '0x3a94c5'
+    magenta: '0xdf69ba'
+    cyan:    '0x35a77c'
+    white:   '0xe0dcc7'
