@@ -425,6 +425,7 @@ require('lspconfig')['powershell_es'].setup {
                 trimWhitespaceAroundPipe = true,
                 whitespaceBetweenParameters = true,
                 openBraceOnSameLine = true,
+                alignPropertyValuePairs = true,
             }
         }
     }
