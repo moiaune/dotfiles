@@ -31,7 +31,7 @@ blocks:
         style: plain
         background: 'cyan'
         foreground: 'black'
-        template: "[et {{ .FormattedMs }}]"
+        template: "[{{ .FormattedMs }}]"
         properties:
           style: austin
           threshold: 500
