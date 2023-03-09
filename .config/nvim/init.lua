@@ -10,13 +10,11 @@ vim.cmd [[
     lang en_US.UTF-8
     syntax on
     filetype plugin indent on
-    colorscheme monokai_pro
-    colorscheme everforest
 ]]
 
 vim.opt.encoding = 'utf-8'
 vim.opt.termguicolors = true
-vim.opt.background = 'light'
+vim.opt.background = 'dark'
 vim.opt.regexpengine = 1
 
 -- relative numbers
@@ -91,7 +89,20 @@ vim.cmd('highlight ColorColumn ctermbg=darkgray')
 vim.opt.completeopt = "menu,menuone,noselect"
 
 -- Make comments use italic
-vim.api.nvim_set_hl(0, 'Comment', { cterm = { italic = true } })
+-- vim.api.nvim_set_hl(0, 'Comment', { cterm = { italic = true } })
+
+
+-- -----------------------------
+-- ---     THEME SETTINGS    ---
+-- -----------------------------
+
+vim.g.nord_italic = 1
+vim.g.nord_italic_comments = 1
+vim.g.nord_cursor_line_number_background = 1
+
+vim.cmd [[
+    colorscheme nord
+]]
 
 -- -----------------------------
 -- ---    PLUGINS (PACKER)   ---
@@ -107,6 +118,7 @@ require('packer').startup(function(use)
     -- themes
     use 'tanvirtin/monokai.nvim'
     use 'sainnhe/everforest'
+    use 'arcticicestudio/nord-vim'
 
     -- lsp
     use 'neovim/nvim-lspconfig'
@@ -215,7 +227,7 @@ require('nvim-treesitter.configs').setup {
 
 require('lualine').setup {
     options = {
-        theme = 'everforest',
+        theme = 'nord',
         icons_enabled = true,
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },

@@ -141,6 +141,11 @@ _G.packer_plugins = {
     path = "/Users/mm/.local/share/nvim/site/pack/packer/start/monokai.nvim",
     url = "https://github.com/tanvirtin/monokai.nvim"
   },
+  ["nord-vim"] = {
+    loaded = true,
+    path = "/Users/mm/.local/share/nvim/site/pack/packer/start/nord-vim",
+    url = "https://github.com/arcticicestudio/nord-vim"
+  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/Users/mm/.local/share/nvim/site/pack/packer/start/nvim-cmp",

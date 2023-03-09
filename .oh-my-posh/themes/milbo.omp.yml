@@ -18,7 +18,7 @@ blocks:
           fetch_worktree_count: true
       - type: path
         style: plain
-        foreground: '#7ea4b3'
+        foreground: 'cyan'
         properties:
           style: letter
   - type: prompt
@@ -26,11 +26,11 @@ blocks:
     segments:
       - type: time
         style: plain
-        foreground: '#8DA101'
+        foreground: 'green'
       - type: executiontime
         style: plain
-        background: '#F57D26'
-        foreground: '#ffffff'
+        background: 'cyan'
+        foreground: 'black'
         template: "[et {{ .FormattedMs }}]"
         properties:
           style: austin
