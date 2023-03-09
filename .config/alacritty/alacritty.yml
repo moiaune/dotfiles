@@ -60,28 +60,26 @@ font:
   # support ligatures/glyphs. That's used by tmux & VIM to provide a better
   # UI for powerline & tmux bottom bar.
   normal:
-    # Font name
-    family: 'CaskaydiaCove Nerd Font Mono'
-    # Font face
-    style: Book
+    family: 'Cascadia Mono PL'
+    style: Regular
 
   # Bold font face
   bold:
-    family: 'CaskaydiaCove Nerd Font Mono'
-    style: Book
+    family: 'Cascadia Mono PL'
+    style: Bold
 
   # Italic font face
   italic:
-    family: 'CaskaydiaCove Nerd Font Mono'
-    style: Book
+    family: 'Cascadia Mono PL'
+    style: Italic
 
   # Bold italic font face
   # Note: Since i don't have a font italic version of this font, I just specified
   # italic & it just works. You may specifiy the bold italic version if it exists
   # for your font
   bold_italic:
-    family: 'CaskaydiaCove Nerd Font Mono'
-    style: Book
+    family: 'Cascadia Mono PL'
+    style: 'Bold Italic'
 
   # Font size
   size: 14.0
