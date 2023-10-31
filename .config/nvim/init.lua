@@ -266,15 +266,25 @@ require('nvim-treesitter.configs').setup {
 
 require('lualine').setup {
     options = {
-        theme = 'auto',
+        -- theme = 'auto',
+        theme = {
+            normal = {
+                a = { fg = "black", bg = "yellow" },
+                b = { fg = "yellow", bg = "black" },
+                c = { fg = "white", bg = "black" },
+                x = { fg = "white", bg = "black" },
+                y = { fg = "white", bg = "black" },
+                z = { fg = "white", bg = "black" },
+            },
+        },
         icons_enabled = true,
         component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
     },
     sections = {
         lualine_a = { "mode" },
         lualine_b = { "branch", "diff" },
-        lualine_c = { "filename" },
+        lualine_c = { { "filename", path = 1, } },
         lualine_x = { "encoding", "filetype" },
         lualine_y = { "location", "progress" },
         lualine_z = { {
@@ -283,8 +293,8 @@ require('lualine').setup {
             sections = { "error", "warn" },
             diagnostics_color = {
                 -- Same values as the general color option can be used here.
-                error = 'DiagnosticError', -- Changes diagnostics' error color.
-                warn  = 'DiagnosticWarn',  -- Changes diagnostics' warn color.
+                error = 'red',    -- Changes diagnostics' error color.
+                warn  = 'orange', -- Changes diagnostics' warn color.
             },
             symbols = { error = "E", warn = "W" },
             colored = true,
