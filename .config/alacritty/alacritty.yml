@@ -2,9 +2,9 @@
 env:
   TERM: xterm-256color
 
-shell:
-    program: /usr/local/bin/tmux
-    args: ["-u"]
+# shell:
+#     program: /usr/local/bin/tmux
+#     args: ["-u"]
 
 scrolling:
   history: 10000
@@ -43,13 +43,23 @@ window:
   # Startup Mode (changes require restart)
   startup_mode: Windowed
 
+  # Config warning: alt_send_esc has been removed; It's now always set to 'true'.
+  # If you're on macOS use 'window.option_as_alt' to alter behaviour of Option.
+  # Basically: Make `Option` key behave as `Alt` (macOS only)
+  # Valid values:
+  #   - OnlyLeft
+  #   - OnlyRight
+  #   - Both
+  #   - None
+  option_as_alt: None
+
 tabspaces: 4
 
 draw_bold_text_with_bright_colors: false
 
 cursor:
   style:
-    shape: block
+    shape: Block
     blinking: On
 
 # Sample Font configuration for font: Monoid.
@@ -60,7 +70,7 @@ font:
   # support ligatures/glyphs. That's used by tmux & VIM to provide a better
   # UI for powerline & tmux bottom bar.
   normal:
-    family: 'Cascadia Mono PL'
+    family: 'JetBrainsMono Nerd Font Mono'
     style: Regular
 
   # Bold font face
@@ -90,7 +100,7 @@ font:
   # to your convenience but make sure to adjust 'glyph_offset' appropriately post that
   offset:
     x: 0
-    y: 4
+    y: 2
 
   # Note: This requires RESTART
   # By default when you change the offset above you'll see an issue, where the texts are bottom
@@ -99,7 +109,11 @@ font:
   glyph_offset:
     x: 0
     # Keeping this as half of offset to vertically align the text in cursor
-    y: 2
+    y: 1
+
+  use_thing_strokes: true
+
+
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
@@ -112,7 +126,8 @@ live_config_reload: true
 
 # send ESC (\x1b) before characters when alt is pressed.
 # this needs to be false on macos for the options key to work properly
-alt_send_esc: false
+# Deprecated in Alacritty 0.12.0, and replaced with window.option_as_alt
+# alt_send_esc: false
 
 # Setup some amazing custom key bindings here - Best thing is you can setup key bindings
 # using Mac's 'command' to control your tmux.
@@ -132,122 +147,34 @@ key_bindings:
   - { key: Key8,     mods: Alt,           chars: "\x5B"                    } # [
   - { key: Key9,     mods: Alt,           chars: "\x5D"                    } # ]
 
-# Colors (Everforest Light)
-# colors:
-#   # Default colors
-#   primary:
-#     background: '0xfdf6e3'
-#     foreground: '0x5c6a72'
-
-#   # Normal colors
-#   normal:
-#     black:   '0x5c6a72'
-#     red:     '0xf85552'
-#     green:   '0x8da101'
-#     yellow:  '0xdfa000'
-#     blue:    '0x3a94c5'
-#     magenta: '0xdf69ba'
-#     cyan:    '0x35a77c'
-#     white:   '0xe0dcc7'
-
-#   # Bright Colors
-#   bright:
-#     black:   '0x5c6a72'
-#     red:     '0xf85552'
-#     green:   '0x8da101'
-#     yellow:  '0xdfa000'
-#     blue:    '0x3a94c5'
-#     magenta: '0xdf69ba'
-#     cyan:    '0x35a77c'
-#     white:   '0xe0dcc7'
-
-
-# # Colors (Everforest Dark)
-# colors:
-#   # Default colors
-#   primary:
-#     background: '0x2d353b'
-#     foreground: '0xd3c6aa'
-
-#   # Normal colors
-#   normal:
-#     black:   '0x475258'
-#     red:     '0xe67e80'
-#     green:   '0xa7c080'
-#     yellow:  '0xdbbc7f'
-#     blue:    '0x7fbbb3'
-#     magenta: '0xd699b6'
-#     cyan:    '0x83c092'
-#     white:   '0xd3c6aa'
-
-#   # Bright colors
-#   bright:
-#     black:   '0x475258'
-#     red:     '0xe67e80'
-#     green:   '0xa7c080'
-#     yellow:  '0xdbbc7f'
-#     blue:    '0x7fbbb3'
-#     magenta: '0xd699b6'
-#     cyan:    '0x83c092'
-#     white:   '0xd3c6aa'
-
-
-# Copyright (c) 2017-present Arctic Ice Studio <development@arcticicestudio.com>
-# Copyright (c) 2017-present Sven Greb <code@svengreb.de>
-
-# Project:    Nord Alacritty
-# Version:    0.1.0
-# Repository: https://github.com/arcticicestudio/nord-alacritty
-# License:    MIT
-# References:
-#   https://github.com/alacritty/alacritty
-
+# Colors (Hyper)
 colors:
+  # Default colors
   primary:
-    background: '#2e3440'
-    foreground: '#d8dee9'
-    dim_foreground: '#a5abb6'
+    background: '0x000000'
+    foreground: '0xffffff'
   cursor:
-    text: '#2e3440'
-    cursor: '#d8dee9'
-  vi_mode_cursor:
-    text: '#2e3440'
-    cursor: '#d8dee9'
-  selection:
-    text: CellForeground
-    background: '#4c566a'
-  search:
-    matches:
-      foreground: CellBackground
-      background: '#88c0d0'
-    footer_bar:
-      background: '#434c5e'
-      foreground: '#d8dee9'
-  normal:
-    black: '#3b4252'
-    red: '#bf616a'
-    green: '#a3be8c'
-    yellow: '#ebcb8b'
-    blue: '#81a1c1'
-    magenta: '#b48ead'
-    cyan: '#88c0d0'
-    white: '#e5e9f0'
-  bright:
-    black: '#4c566a'
-    red: '#bf616a'
-    green: '#a3be8c'
-    yellow: '#ebcb8b'
-    blue: '#81a1c1'
-    magenta: '#b48ead'
-    cyan: '#8fbcbb'
-    white: '#eceff4'
-  dim:
-    black: '#373e4d'
-    red: '#94545d'
-    green: '#809575'
-    yellow: '#b29e75'
-    blue: '#68809a'
-    magenta: '#8c738c'
-    cyan: '#6d96a5'
-    white: '#aeb3bb'
+    text: '0xF81CE5'
+    cursor: '0xffffff'
 
+  # Normal colors
+  normal:
+    black:   '0x000000'
+    red:     '0xfe0100'
+    green:   '0x33ff00'
+    yellow:  '0xfeff00'
+    blue:    '0x0066ff'
+    magenta: '0xcc00ff'
+    cyan:    '0x00ffff'
+    white:   '0xd0d0d0'
+
+  # Bright colors
+  bright:
+    black:   '0x808080'
+    red:     '0xfe0100'
+    green:   '0x33ff00'
+    yellow:  '0xfeff00'
+    blue:    '0x0066ff'
+    magenta: '0xcc00ff'
+    cyan:    '0x00ffff'
+    white:   '0xFFFFFF'

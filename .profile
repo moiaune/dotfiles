@@ -6,6 +6,8 @@ source ~/.nvm/nvm.sh
 shopt -s autocd
 shopt -s histappend
 
+export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
+
 export EDITOR=nvim
 export VISUAL=code
 
@@ -64,6 +66,7 @@ alias gh="cd ~/code/github.com"
 alias gcm='git commit -m'
 alias gsa='git status -uall'
 alias gps='git push'
+alias gap='git add -p'
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
@@ -80,6 +83,7 @@ alias gps='git push'
 [ -f ~/.git-completion.bash ] && source ~/.git-completion.bash
 
 # ----------------------
+export PYENV_VERSION=3.11.1
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"

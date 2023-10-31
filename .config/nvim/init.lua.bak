@@ -13,8 +13,7 @@ vim.cmd [[
 ]]
 
 vim.opt.encoding = 'utf-8'
-vim.opt.termguicolors = true
-vim.opt.background = 'dark'
+vim.o.termguicolors = true
 vim.opt.regexpengine = 1
 
 -- relative numbers
@@ -85,24 +84,57 @@ vim.opt.colorcolumn = '115'
 -- color column color
 vim.cmd('highlight ColorColumn ctermbg=darkgray')
 
+-- enabled mouse support
+vim.opt.mouse = 'a'
+
 -- ???
 vim.opt.completeopt = "menu,menuone,noselect"
 
 -- Make comments use italic
 -- vim.api.nvim_set_hl(0, 'Comment', { cterm = { italic = true } })
 
-
 -- -----------------------------
 -- ---     THEME SETTINGS    ---
 -- -----------------------------
 
-vim.g.nord_italic = 1
-vim.g.nord_italic_comments = 1
-vim.g.nord_cursor_line_number_background = 1
-
+vim.g.everforest_background = 'hard'
+vim.g.everforest_transparent_background = 1
+vim.g.everforest_diagnostic_virtual_text = 'colored'
+vim.g.everforest_enable_italic = 1
+vim.g.everforest_diagnostic_text_highlight = 0
+vim.g.everforest_diagnostic_line_highlight = 0
+vim.g.everforest_better_performance = 1
+vim.opt.background = 'dark'
 vim.cmd [[
-    colorscheme nord
+    colorscheme everforest
 ]]
+
+-- vim.opt.background = 'light'
+-- vim.cmd [[
+--     colorscheme dim
+--     highlight SignColumn guibg=black ctermbg=black
+--     highlight GitGutterAdd    guibg=black guifg=#009900 ctermfg=2
+--     highlight GitGutterChange guibg=black guifg=#bbbb00 ctermfg=3
+--     highlight GitGutterDelete guibg=black guifg=#ff2222 ctermfg=1
+--     highlight TelescopeNormal guibg=black
+--     highlight CmpItemKindInterface guibg=black
+--     highlight Pmenu guibg=blue ctermfg=1
+--     highlight CursorLine guibg=purple
+--     hi Normal guibg=NONE ctermbg=NONE
+-- ]]
+
+-- vim.opt.background = 'light'
+-- vim.cmd [[
+--     colorscheme psise
+--     highlight SignColumn guibg=white ctermbg=white
+--     highlight GitGutterAdd    guibg=white guifg=#009900 ctermfg=2
+--     highlight GitGutterChange guibg=white guifg=#bbbb00 ctermfg=3
+--     highlight GitGutterDelete guibg=white guifg=#ff2222 ctermfg=1
+--     highlight TelescopeNormal guibg=white
+--     highlight CmpItemKindInterface guibg=white
+--     highlight Pmenu guibg=blue ctermfg=1
+--     hi Normal guibg=NONE ctermbg=NONE
+-- ]]
 
 -- -----------------------------
 -- ---    PLUGINS (PACKER)   ---
@@ -119,6 +151,7 @@ require('packer').startup(function(use)
     use 'tanvirtin/monokai.nvim'
     use 'sainnhe/everforest'
     use 'arcticicestudio/nord-vim'
+    use 'jeffkreeftmeijer/vim-dim'
 
     -- lsp
     use 'neovim/nvim-lspconfig'
@@ -170,6 +203,12 @@ end)
 -- -----------------------------
 
 require('telescope').setup {
+    defaults = {
+        layout_strategy = 'vertical',
+        layout_config = {
+            height = 0.95,
+        },
+    },
     pickers = {
         find_files = {
             disable_devicons = true
@@ -227,7 +266,7 @@ require('nvim-treesitter.configs').setup {
 
 require('lualine').setup {
     options = {
-        theme = 'nord',
+        theme = 'auto',
         icons_enabled = true,
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
@@ -235,9 +274,9 @@ require('lualine').setup {
     sections = {
         lualine_a = { "mode" },
         lualine_b = { "branch", "diff" },
-        lualine_c = { "buffers" },
+        lualine_c = { "filename" },
         lualine_x = { "encoding", "filetype" },
-        lualine_y = { "progress" },
+        lualine_y = { "location", "progress" },
         lualine_z = { {
             "diagnostics",
             sources = { "nvim_workspace_diagnostic", "nvim_lsp" },
@@ -245,7 +284,7 @@ require('lualine').setup {
             diagnostics_color = {
                 -- Same values as the general color option can be used here.
                 error = 'DiagnosticError', -- Changes diagnostics' error color.
-                warn  = 'DiagnosticWarn', -- Changes diagnostics' warn color.
+                warn  = 'DiagnosticWarn',  -- Changes diagnostics' warn color.
             },
             symbols = { error = "E", warn = "W" },
             colored = true,
@@ -261,21 +300,17 @@ require('lualine').setup {
 
 require("todo-comments").setup {
     signs = false,
-    keywords = {
-        FIX = {
-            color = "#fceda4",
-            alt = { "FIXME", "FIXIT" },
-        }
-    },
     gui_style = {
         fg = "ITALIC",
         bg = "NONE",
     },
     merge_keywords = true,
     highlight = {
+        multiline = true,
         before = "fg",
-        keyword = "fg",
-        after = "fg"
+        keyword = "bg",
+        after = "fg",
+        comments_only = true,
     }
 }
 
@@ -296,8 +331,8 @@ require("mason").setup({
 -- -----------------------------
 -- ---        LUASNIP        ---
 -- -----------------------------
--- load snippets from path/of/your/nvim/config/my-cool-snippets
-require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets" } })
+-- load snippets from path/of/your/nvim/config/snippets
+require("luasnip.loaders.from_vscode").load({ paths = { "./snippets" } })
 
 -- -----------------------------
 -- ---   AUTOCOMPLETE (CMP)  ---
@@ -320,24 +355,32 @@ cmp.setup({
         completion = cmp.config.window.bordered(),
     },
     mapping = {
-        ['<Tab>'] = function(fallback)
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
             elseif luasnip.expand_or_jumpable() then
                 luasnip.expand_or_jump()
-            elseif has_words_before() then
-                cmp.complete()
             else
                 fallback()
             end
-        end,
-        ['<CR>'] = function(fallback)
+        end, { "i", "s" }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+        ['<CR>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.confirm()
             else
                 fallback()
             end
-        end
+        end, { "i", "s" })
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
@@ -389,6 +432,16 @@ require("lspconfig")["lua_ls"].setup {
     on_attach = on_attach,
 }
 
+require("lspconfig")["ruff_lsp"].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    init_options = {
+        settings = {
+
+        }
+    }
+}
+
 require("lspconfig")["gopls"].setup {
     capabilities = capabilities,
     on_attach = on_attach,
@@ -399,19 +452,37 @@ require("lspconfig")["gopls"].setup {
     }
 }
 
-require("lspconfig")["golangci_lint_ls"].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    settings = {
-        gopls = {
-            gofumpt = true,
-        },
-    },
-}
+-- require("lspconfig")["golangci_lint_ls"].setup {
+--     capabilities = capabilities,
+--     on_attach = on_attach,
+--     settings = {
+--         gopls = {
+--             gofumpt = true,
+--         },
+--     },
+-- }
 
 require("lspconfig")["terraformls"].setup {
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach = function(client, bufnr)
+        -- Enable completion triggered by <c-x><c-o>
+        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
+        -- Mappings.
+        local bufopts = { noremap = true, silent = true, buffer = bufnr }
+        vim.keymap.set('n', 'gd', "<cmd>Telescope lsp_definitions<CR>", bufopts)
+        vim.keymap.set('n', 'gr', "<cmd>Telescope lsp_references<CR>", bufopts)
+        vim.keymap.set('n', 'gi', "<cmd>Telescope lsp_implementations<CR>", bufopts)
+        vim.keymap.set('n', '<space>D', "<cmd>Telescope lsp_type_definitions<CR>", bufopts)
+        vim.keymap.set('n', '<space>d', "<cmd>Telescope diagnostics<CR>", bufopts)
+
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+        vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+        vim.keymap.set('n', '<leader>dj', vim.diagnostic.goto_next, bufopts)
+        vim.keymap.set('n', '<leader>dk', vim.diagnostic.goto_prev, bufopts)
+    end
 }
 
 require('lspconfig')['powershell_es'].setup {
@@ -420,12 +491,18 @@ require('lspconfig')['powershell_es'].setup {
     on_attach = on_attach,
     settings = {
         ["powershell"] = {
+            codeFolding = {
+                enable = false,
+            },
             codeFormatting = {
+                newLineAfterCloseBrace = false,
                 pipelineIndentationStyle = "IncreaseIndentationForFirstPipeline",
                 trimWhitespaceAroundPipe = true,
+                useCorrectCasing = true,
                 whitespaceBetweenParameters = true,
                 openBraceOnSameLine = true,
                 alignPropertyValuePairs = true,
+                ignoreOneLineBlock = true,
             }
         }
     }
@@ -518,7 +595,7 @@ vim.keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>")
 vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>")
 
 -- todo-comments
-vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>")
+vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIXME<cr>")
 
 -- -----------------------------
 -- ---      COMMANDS       ---

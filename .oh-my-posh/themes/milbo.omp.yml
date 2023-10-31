@@ -5,13 +5,17 @@ blocks:
   - type: prompt
     alignment: left
     segments:
+      - type: python
+        style: plain
+        foreground: yellow
+        template: "({{ .Venv }}) "
       - type: shell
         style: plain
-        foreground: blue
+        foreground: red
         template: "[{{ .Name }}]"
       - type: git
         style: plain
-        foreground: lightYellow
+        foreground: lightBlue
         template: " [{{ .HEAD }}]"
         properties:
           fetch_status: true
@@ -29,8 +33,7 @@ blocks:
         foreground: 'green'
       - type: executiontime
         style: plain
-        background: 'cyan'
-        foreground: 'black'
+        foreground: 'cyan'
         template: "[{{ .FormattedMs }}]"
         properties:
           style: austin

@@ -1,0 +1,42 @@
+{
+    "name": "example-snippets",
+    "contributes": {
+        "snippets": [
+            {
+                "language": "all",
+                "path": "./all.json"
+            },
+            {
+                "language": "go",
+                "path": "./go.json"
+            },
+            {
+                "language": "javascript",
+                "path": "./javascript.json"
+            },
+            {
+                "language": "css",
+                "path": "./css.json"
+            },
+            {
+                "language": [
+                    "ps1",
+                    "powershell"
+                ],
+                "path": "./powershell.json"
+            },
+            {
+                "language": "python",
+                "path": "./python.json"
+            },
+            {
+                "language": [
+                    "terraform",
+                    "hcl",
+                    "tf"
+                ],
+                "path": "./terraform.json"
+            }
+        ]
+    }
+}

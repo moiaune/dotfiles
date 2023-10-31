@@ -14,7 +14,7 @@ Import-Module -Name posh-git
 #     - PROMPT -
 # -----------------------------------------------------------------------------
 
-oh-my-posh init pwsh --config "~/code/github.com/madsaune/milbo-omp-theme/milbo.omp.yml" | Invoke-Expression
+oh-my-posh init pwsh --config "~/.oh-my-posh/themes/milbo.omp.yml" | Invoke-Expression
 
 # -----------------------------------------------------------------------------
 #     - ENVIRONMENT VARIABLES -
@@ -64,100 +64,6 @@ Set-PSReadLineKeyHandler -Chord "Ctrl+f" -Function ForwardWord
 
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 
-Set-PSReadLineKeyHandler -Key '"', "'" `
-    -BriefDescription SmartInsertQuote `
-    -LongDescription "Insert paired quotes if not already on a quote" `
-    -ScriptBlock {
-    param($key, $arg)
-
-    $quote = $key.KeyChar
-
-    $selectionStart = $null
-    $selectionLength = $null
-    [Microsoft.PowerShell.PSConsoleReadLine]::GetSelectionState([ref]$selectionStart, [ref]$selectionLength)
-
-    $line = $null
-    $cursor = $null
-    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-
-    # If text is selected, just quote it without any smarts
-    if ($selectionStart -ne -1) {
-        [Microsoft.PowerShell.PSConsoleReadLine]::Replace($selectionStart, $selectionLength, $quote + $line.SubString($selectionStart, $selectionLength) + $quote)
-        [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($selectionStart + $selectionLength + 2)
-        return
-    }
-
-    $ast = $null
-    $tokens = $null
-    $parseErrors = $null
-    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$ast, [ref]$tokens, [ref]$parseErrors, [ref]$null)
-
-    function FindToken {
-        param($tokens, $cursor)
-
-        foreach ($token in $tokens) {
-            if ($cursor -lt $token.Extent.StartOffset) { continue }
-            if ($cursor -lt $token.Extent.EndOffset) {
-                $result = $token
-                $token = $token -as [StringExpandableToken]
-                if ($token) {
-                    $nested = FindToken $token.NestedTokens $cursor
-                    if ($nested) { $result = $nested }
-                }
-
-                return $result
-            }
-        }
-        return $null
-    }
-
-    $token = FindToken $tokens $cursor
-
-    # If we're on or inside a **quoted** string token (so not generic), we need to be smarter
-    if ($token -is [StringToken] -and $token.Kind -ne [TokenKind]::Generic) {
-        # If we're at the start of the string, assume we're inserting a new string
-        if ($token.Extent.StartOffset -eq $cursor) {
-            [Microsoft.PowerShell.PSConsoleReadLine]::Insert("$quote$quote ")
-            [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($cursor + 1)
-            return
-        }
-
-        # If we're at the end of the string, move over the closing quote if present.
-        if ($token.Extent.EndOffset -eq ($cursor + 1) -and $line[$cursor] -eq $quote) {
-            [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($cursor + 1)
-            return
-        }
-    }
-
-    if ($null -eq $token -or
-        $token.Kind -eq [TokenKind]::RParen -or $token.Kind -eq [TokenKind]::RCurly -or $token.Kind -eq [TokenKind]::RBracket) {
-        if ($line[0..$cursor].Where{ $_ -eq $quote }.Count % 2 -eq 1) {
-            # Odd number of quotes before the cursor, insert a single quote
-            [Microsoft.PowerShell.PSConsoleReadLine]::Insert($quote)
-        } else {
-            # Insert matching quotes, move cursor to be in between the quotes
-            [Microsoft.PowerShell.PSConsoleReadLine]::Insert("$quote$quote")
-            [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($cursor + 1)
-        }
-        return
-    }
-
-    # If cursor is at the start of a token, enclose it in quotes.
-    if ($token.Extent.StartOffset -eq $cursor) {
-        if ($token.Kind -eq [TokenKind]::Generic -or $token.Kind -eq [TokenKind]::Identifier -or
-            $token.Kind -eq [TokenKind]::Variable -or $token.TokenFlags.hasFlag([TokenFlags]::Keyword)) {
-            $end = $token.Extent.EndOffset
-            $len = $end - $cursor
-            [Microsoft.PowerShell.PSConsoleReadLine]::Replace($cursor, $len, $quote + $line.SubString($cursor, $len) + $quote)
-            [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($end + 2)
-            return
-        }
-    }
-
-    # We failed to be smart, so just insert a single quote
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($quote)
-}
-
 # --- Hide sensitive information from history
 Set-PSReadLineOption -AddToHistoryHandler {
     param(
@@ -168,9 +74,53 @@ Set-PSReadLineOption -AddToHistoryHandler {
 }
 
 # -----------------------------------------------------------------------------
+#     - TERMINAL COLORS -
+#     https://learn.microsoft.com/en-us/powershell/scripting/learn/shell/using-light-theme?view=powershell-7.3
+# -----------------------------------------------------------------------------
+
+# $ISETheme = @{
+#     Command                = $PSStyle.Foreground.FromRGB(0x0000FF)
+#     Comment                = $PSStyle.Foreground.FromRGB(0x006400)
+#     ContinuationPrompt     = $PSStyle.Foreground.FromRGB(0x0000FF)
+#     Default                = $PSStyle.Foreground.FromRGB(0x0000FF)
+#     Emphasis               = $PSStyle.Foreground.FromRGB(0x287BF0)
+#     Error                  = $PSStyle.Foreground.FromRGB(0xE50000)
+#     InlinePrediction       = $PSStyle.Foreground.FromRGB(0x93A1A1)
+#     Keyword                = $PSStyle.Foreground.FromRGB(0x00008b)
+#     ListPrediction         = $PSStyle.Foreground.FromRGB(0x06DE00)
+#     Member                 = $PSStyle.Foreground.FromRGB(0x000000)
+#     Number                 = $PSStyle.Foreground.FromRGB(0x800080)
+#     Operator               = $PSStyle.Foreground.FromRGB(0x757575)
+#     Parameter              = $PSStyle.Foreground.FromRGB(0x000080)
+#     String                 = $PSStyle.Foreground.FromRGB(0x8b0000)
+#     Type                   = $PSStyle.Foreground.FromRGB(0x008080)
+#     Variable               = $PSStyle.Foreground.FromRGB(0xff4500)
+#     ListPredictionSelected = $PSStyle.Background.FromRGB(0x93A1A1)
+#     Selection              = $PSStyle.Background.FromRGB(0x00BFFF)
+# }
+# Set-PSReadLineOption -Colors $ISETheme
+
+# # Improve light theme in terminal
+# $PSStyle.Formatting.FormatAccent       = "`e[32m"
+# $PSStyle.Formatting.TableHeader        = "`e[32m"
+# $PSStyle.Formatting.ErrorAccent        = "`e[36m"
+# $PSStyle.Formatting.Error              = "`e[31m"
+# $PSStyle.Formatting.Warning            = "`e[33m"
+# $PSStyle.Formatting.Verbose            = "`e[33m"
+# $PSStyle.Formatting.Debug              = "`e[33m"
+# $PSStyle.Progress.Style                = "`e[33m"
+# $PSStyle.FileInfo.Directory            = $PSStyle.Background.FromRgb(0x2f6aff) + $PSStyle.Foreground.BrightWhite
+# $PSStyle.FileInfo.SymbolicLink         = "`e[36m"
+# $PSStyle.FileInfo.Executable           = "`e[95m"
+# $PSStyle.FileInfo.Extension['.ps1']    = "`e[36m"
+# $PSStyle.FileInfo.Extension['.ps1xml'] = "`e[36m"
+# $PSStyle.FileInfo.Extension['.psd1']   = "`e[36m"
+# $PSStyle.FileInfo.Extension['.psm1']   = "`e[36m"
+
+
+# -----------------------------------------------------------------------------
 #     - ALIASES -
 # -----------------------------------------------------------------------------
-function devops { Set-Location /Users/mm/code/dev.azure.com }
 function ListFilesAndFolders { param([string]$path = ".") Get-ChildItem -Path $path }
 Set-Alias -Name ll -Value ListFilesAndFolders
 
@@ -186,8 +136,7 @@ Set-Alias -Name gsa -Value GitStatusAll
 function GitCommitPatch { git commit -p }
 Set-Alias -Name gcp -Value GitCommitPatch
 
-function TerraformCheckFormatting { terraform fmt -check -recursive }
-Set-Alias -Name tcfmt -Value TerraformCheckFormatting
+function GitAddPatch { git add -p $args }
+Set-Alias -Name gap -Value GitAddPatch
 
-function TerraformFormatAll { terraform fmt -recursive }
-Set-Alias -Name tfmt -Value TerraformFormatAll
+Set-Alias -Name vim -Value nvim
