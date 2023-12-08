@@ -117,6 +117,8 @@ Set-PSReadLineOption -AddToHistoryHandler {
 # $PSStyle.FileInfo.Extension['.psd1']   = "`e[36m"
 # $PSStyle.FileInfo.Extension['.psm1']   = "`e[36m"
 
+Set-PSReadLineOption -Colors @{ Member = "`e[95m"; Number = "`e[95m" }
+
 
 # -----------------------------------------------------------------------------
 #     - ALIASES -
