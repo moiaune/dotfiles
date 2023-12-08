@@ -2,9 +2,13 @@
 env:
   TERM: xterm-256color
 
-# shell:
-#     program: /usr/local/bin/tmux
-#     args: ["-u"]
+shell:
+    program: /usr/local/bin/tmux
+    args: ["-u"]
+
+import:
+  # - ~/code/github.com/madsaune/dotfiles/.config/alacritty/themes/alabaster.yaml
+  - ~/code/github.com/madsaune/dotfiles/.config/alacritty/themes/everforest_dark.yaml
 
 scrolling:
   history: 10000
@@ -65,22 +69,28 @@ cursor:
 # Sample Font configuration for font: Monoid.
 # Feel free to use different font configuration family & face for each sections
 font:
+  # Font size
+  size: 16.0
+
   # Normal font face - Also used to draw glyphs on tmux & VIM
   # NOTE: You may use any font you'd like but make sure the normal fonts
   # support ligatures/glyphs. That's used by tmux & VIM to provide a better
   # UI for powerline & tmux bottom bar.
   normal:
-    family: 'JetBrainsMono Nerd Font Mono'
+    # family: 'JetBrainsMono Nerd Font Mono'
+    family: 'Hack Nerd Font Mono'
     style: Regular
 
   # Bold font face
   bold:
-    family: 'Cascadia Mono PL'
+    # family: 'Cascadia Mono PL'
+    family: 'Hack Nerd Font Mono'
     style: Bold
 
   # Italic font face
   italic:
-    family: 'Cascadia Mono PL'
+    # family: 'Cascadia Mono PL'
+    family: 'Hack Nerd Font Mono'
     style: Italic
 
   # Bold italic font face
@@ -88,11 +98,8 @@ font:
   # italic & it just works. You may specifiy the bold italic version if it exists
   # for your font
   bold_italic:
-    family: 'Cascadia Mono PL'
+    family: 'Hack Nerd Font Mono'
     style: 'Bold Italic'
-
-  # Font size
-  size: 14.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing
@@ -146,35 +153,3 @@ key_bindings:
   - { key: Key9,     mods: Alt|Shift,     chars: "\x7D"                    } # }
   - { key: Key8,     mods: Alt,           chars: "\x5B"                    } # [
   - { key: Key9,     mods: Alt,           chars: "\x5D"                    } # ]
-
-# Colors (Hyper)
-colors:
-  # Default colors
-  primary:
-    background: '0x000000'
-    foreground: '0xffffff'
-  cursor:
-    text: '0xF81CE5'
-    cursor: '0xffffff'
-
-  # Normal colors
-  normal:
-    black:   '0x000000'
-    red:     '0xfe0100'
-    green:   '0x33ff00'
-    yellow:  '0xfeff00'
-    blue:    '0x0066ff'
-    magenta: '0xcc00ff'
-    cyan:    '0x00ffff'
-    white:   '0xd0d0d0'
-
-  # Bright colors
-  bright:
-    black:   '0x808080'
-    red:     '0xfe0100'
-    green:   '0x33ff00'
-    yellow:  '0xfeff00'
-    blue:    '0x0066ff'
-    magenta: '0xcc00ff'
-    cyan:    '0x00ffff'
-    white:   '0xFFFFFF'
