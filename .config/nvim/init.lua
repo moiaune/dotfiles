@@ -12,6 +12,9 @@ vim.cmd [[
     filetype plugin indent on
 ]]
 
+-- load bash profile in neovim terminal
+vim.o.shell = "/usr/local/bin/bash -l"
+
 vim.opt.encoding = 'utf-8'
 vim.o.termguicolors = true
 vim.opt.regexpengine = 1
@@ -90,12 +93,21 @@ vim.opt.mouse = 'a'
 -- ???
 vim.opt.completeopt = "menu,menuone,noselect"
 
+-- show whitespaces characters
+vim.opt.listchars = { eol = "¬", tab = ">~", trail = "~", precedes = "<", space = "·", nbsp = "×" }
+vim.opt.list = true
+
 -- Make comments use italic
 -- vim.api.nvim_set_hl(0, 'Comment', { cterm = { italic = true } })
 
 -- -----------------------------
 -- ---     THEME SETTINGS    ---
 -- -----------------------------
+
+-- vim.opt.background = 'light'
+-- vim.cmd [[
+--     colorscheme edge
+-- ]]
 
 vim.g.everforest_background = 'hard'
 vim.g.everforest_transparent_background = 1
@@ -108,33 +120,6 @@ vim.opt.background = 'dark'
 vim.cmd [[
     colorscheme everforest
 ]]
-
--- vim.opt.background = 'light'
--- vim.cmd [[
---     colorscheme dim
---     highlight SignColumn guibg=black ctermbg=black
---     highlight GitGutterAdd    guibg=black guifg=#009900 ctermfg=2
---     highlight GitGutterChange guibg=black guifg=#bbbb00 ctermfg=3
---     highlight GitGutterDelete guibg=black guifg=#ff2222 ctermfg=1
---     highlight TelescopeNormal guibg=black
---     highlight CmpItemKindInterface guibg=black
---     highlight Pmenu guibg=blue ctermfg=1
---     highlight CursorLine guibg=purple
---     hi Normal guibg=NONE ctermbg=NONE
--- ]]
-
--- vim.opt.background = 'light'
--- vim.cmd [[
---     colorscheme psise
---     highlight SignColumn guibg=white ctermbg=white
---     highlight GitGutterAdd    guibg=white guifg=#009900 ctermfg=2
---     highlight GitGutterChange guibg=white guifg=#bbbb00 ctermfg=3
---     highlight GitGutterDelete guibg=white guifg=#ff2222 ctermfg=1
---     highlight TelescopeNormal guibg=white
---     highlight CmpItemKindInterface guibg=white
---     highlight Pmenu guibg=blue ctermfg=1
---     hi Normal guibg=NONE ctermbg=NONE
--- ]]
 
 -- -----------------------------
 -- ---    PLUGINS (PACKER)   ---
@@ -152,6 +137,7 @@ require('packer').startup(function(use)
     use 'sainnhe/everforest'
     use 'arcticicestudio/nord-vim'
     use 'jeffkreeftmeijer/vim-dim'
+    use 'sainnhe/edge'
 
     -- lsp
     use 'neovim/nvim-lspconfig'
@@ -196,6 +182,7 @@ require('packer').startup(function(use)
     use 'tpope/vim-surround'
     use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
     use { 'folke/todo-comments.nvim', requires = 'nvim-lua/plenary.nvim' }
+    use 'akinsho/toggleterm.nvim'
 end)
 
 -- -----------------------------
@@ -249,7 +236,12 @@ require('nvim-treesitter.configs').setup {
         "go",
         "javascript",
         "html",
-        "css"
+        "css",
+        "c",
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
     },
     sync_install = false,
     auto_install = false,
@@ -266,17 +258,17 @@ require('nvim-treesitter.configs').setup {
 
 require('lualine').setup {
     options = {
-        -- theme = 'auto',
-        theme = {
-            normal = {
-                a = { fg = "black", bg = "yellow" },
-                b = { fg = "yellow", bg = "black" },
-                c = { fg = "white", bg = "black" },
-                x = { fg = "white", bg = "black" },
-                y = { fg = "white", bg = "black" },
-                z = { fg = "white", bg = "black" },
-            },
-        },
+        theme = 'auto',
+        -- theme = {
+        --     normal = {
+        --         a = { fg = "black", bg = "yellow" },
+        --         b = { fg = "yellow", bg = "black" },
+        --         c = { fg = "white", bg = "black" },
+        --         x = { fg = "white", bg = "black" },
+        --         y = { fg = "white", bg = "black" },
+        --         z = { fg = "white", bg = "black" },
+        --     },
+        -- },
         icons_enabled = true,
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
@@ -312,16 +304,15 @@ require("todo-comments").setup {
     signs = false,
     gui_style = {
         fg = "ITALIC",
-        bg = "NONE",
     },
-    merge_keywords = true,
+    merge_keywords = false,
     highlight = {
         multiline = true,
         before = "fg",
         keyword = "bg",
         after = "fg",
         comments_only = true,
-    }
+    },
 }
 
 -- -----------------------------
@@ -442,16 +433,6 @@ require("lspconfig")["lua_ls"].setup {
     on_attach = on_attach,
 }
 
-require("lspconfig")["ruff_lsp"].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    init_options = {
-        settings = {
-
-        }
-    }
-}
-
 require("lspconfig")["gopls"].setup {
     capabilities = capabilities,
     on_attach = on_attach,
@@ -546,6 +527,43 @@ require("lspconfig")["jsonls"].setup {
     capabilities = capabilities,
     on_attach = on_attach,
 }
+
+-- -----------------------------
+-- ---      TOGGLETERM       ---
+-- -----------------------------
+
+require('toggleterm').setup {
+    size = 20,
+    open_mapping = [[<c-\>]],
+    hide_numbers = true,
+    direction = 'horizontal',
+    close_on_exit = false,
+}
+
+-- keybindings
+-- sends the whole line where you are standing with your cursor
+local trim_spaces = true
+
+vim.keymap.set("v", "<space>s", function()
+    require("toggleterm").send_lines_to_terminal("single_line", trim_spaces, { args = vim.v.count })
+end)
+
+-- Replace with these for the other two options
+-- require("toggleterm").send_lines_to_terminal("visual_line", trim_spaces, { args = vim.v.count })
+-- require("toggleterm").send_lines_to_terminal("visual_selection", trim_spaces, { args = vim.v.count })
+
+function _G.set_terminal_keymaps()
+    local opts = { buffer = 0 }
+    vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+    vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+    vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+    vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+    vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+    vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+    vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
+
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 -- -----------------------------
 -- ---      KEYMAPPING       ---
