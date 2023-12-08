@@ -1,4 +1,4 @@
-#! /usr/bin/local/bash
+#! /usr/local/bin/bash
 
 source ~/.nvm/nvm.sh
 # nvm use lts/gallium
@@ -25,8 +25,8 @@ then
     source ~/.secrets
 fi
 
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
+# bind '"\e[A": history-search-backward'
+# bind '"\e[B": history-search-forward'
 
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
