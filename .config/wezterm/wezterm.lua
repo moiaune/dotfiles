@@ -16,7 +16,11 @@ config.initial_rows = 30
 -- Launch tmux on startup
 config.default_prog = { '/usr/local/bin/tmux', '-u' }
 
--- Default color scheme
+-- Default color scheme (with overrides)
+local scheme = wezterm.color.get_builtin_schemes()['Everforest Dark (Gogh)']
+scheme.cursor_fg = "black"
+
+config.color_schemes = { ['Everforest Dark (Gogh)'] = scheme }
 config.color_scheme = 'Everforest Dark (Gogh)'
 
 -- Default font
