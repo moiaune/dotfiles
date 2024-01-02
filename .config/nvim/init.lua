@@ -446,16 +446,6 @@ require("lspconfig")["gopls"].setup {
     }
 }
 
--- require("lspconfig")["golangci_lint_ls"].setup {
---     capabilities = capabilities,
---     on_attach = on_attach,
---     settings = {
---         gopls = {
---             gofumpt = true,
---         },
---     },
--- }
-
 require("lspconfig")["terraformls"].setup {
     capabilities = capabilities,
     on_attach = function(client, bufnr)
@@ -648,4 +638,4 @@ vim.cmd("au FocusGained,BufEnter * :checktime")
 vim.cmd("command! W w")
 
 -- alias for powershell formatter
-vim.cmd("command! Pwshf PWSHFORMAT")
+-- vim.cmd("command! Pwshf PWSHFORMAT")
