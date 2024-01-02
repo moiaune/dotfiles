@@ -94,7 +94,7 @@ vim.opt.mouse = 'a'
 vim.opt.completeopt = "menu,menuone,noselect"
 
 -- show whitespaces characters
-vim.opt.listchars = { eol = "¬", tab = ">~", trail = "~", precedes = "<", space = "·", nbsp = "×" }
+vim.opt.listchars = { eol = "↲", tab = "> ", trail = "~", precedes = "<", space = " ", nbsp = "×" }
 vim.opt.list = true
 
 -- Make comments use italic
