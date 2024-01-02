@@ -97,6 +97,9 @@ vim.opt.completeopt = "menu,menuone,noselect"
 vim.opt.listchars = { eol = "↲", tab = "> ", trail = "~", precedes = "<", space = " ", nbsp = "×" }
 vim.opt.list = true
 
+-- disable unused modules
+vim.g.loaded_perl_provider = 0
+
 -- Make comments use italic
 -- vim.api.nvim_set_hl(0, 'Comment', { cterm = { italic = true } })
 
