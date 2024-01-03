@@ -100,9 +100,6 @@ vim.opt.list = true
 -- disable unused modules
 vim.g.loaded_perl_provider = 0
 
--- Make comments use italic
--- vim.api.nvim_set_hl(0, 'Comment', { cterm = { italic = true } })
-
 -- -----------------------------
 -- ---     THEME SETTINGS    ---
 -- -----------------------------
@@ -192,7 +189,7 @@ end)
 -- ---      TELESCOPE        ---
 -- -----------------------------
 
-require('telescope').setup {
+require('telescope').setup({
     defaults = {
         layout_strategy = 'vertical',
         layout_config = {
@@ -219,7 +216,7 @@ require('telescope').setup {
             disable_devicons = true
         },
     },
-}
+})
 
 -- -----------------------------
 -- ---    VIM-COMMENTARY     ---
@@ -232,7 +229,7 @@ vim.cmd [[
 -- ---      TREESITTER       ---
 -- -----------------------------
 
-require('nvim-treesitter.configs').setup {
+require('nvim-treesitter.configs').setup({
     ensure_installed = {
         "lua",
         "terraform",
@@ -252,14 +249,14 @@ require('nvim-treesitter.configs').setup {
         enable = true,
         additional_vim_regex_highlighting = false,
     }
-}
+})
 
 
 -- -----------------------------
 -- ---      LUALINE       ---
 -- -----------------------------
 
-require('lualine').setup {
+require('lualine').setup({
     options = {
         theme = 'auto',
         -- theme = {
@@ -297,13 +294,13 @@ require('lualine').setup {
             always_visible = true,
         } },
     }
-}
+})
 
 -- -----------------------------
 -- ---    TODO-COMMENTS      ---
 -- -----------------------------
 
-require("todo-comments").setup {
+require("todo-comments").setup({
     signs = false,
     gui_style = {
         fg = "ITALIC",
@@ -316,7 +313,7 @@ require("todo-comments").setup {
         after = "fg",
         comments_only = true,
     },
-}
+})
 
 -- -----------------------------
 -- ---        MASON          ---
@@ -431,12 +428,27 @@ local on_attach = function(client, bufnr)
     ]])
 end
 
-require("lspconfig")["lua_ls"].setup {
+require("lspconfig")["lua_ls"].setup({
     capabilities = capabilities,
     on_attach = on_attach,
-}
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = {
+                    'vim',
+                }
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            telemetry = {
+                enable = false,
+            },
+        },
+    }
+})
 
-require("lspconfig")["gopls"].setup {
+require("lspconfig")["gopls"].setup({
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
@@ -444,9 +456,9 @@ require("lspconfig")["gopls"].setup {
             gofumpt = true,
         }
     }
-}
+})
 
-require("lspconfig")["terraformls"].setup {
+require("lspconfig")["terraformls"].setup({
     capabilities = capabilities,
     on_attach = function(client, bufnr)
         -- Enable completion triggered by <c-x><c-o>
@@ -467,9 +479,9 @@ require("lspconfig")["terraformls"].setup {
         vim.keymap.set('n', '<leader>dj', vim.diagnostic.goto_next, bufopts)
         vim.keymap.set('n', '<leader>dk', vim.diagnostic.goto_prev, bufopts)
     end
-}
+})
 
-require('lspconfig')['powershell_es'].setup {
+require('lspconfig')['powershell_es'].setup({
     bundle_path = '/Users/mm/.config/PowerShellEditorServices',
     capabilities = capabilities,
     on_attach = on_attach,
@@ -490,48 +502,48 @@ require('lspconfig')['powershell_es'].setup {
             }
         }
     }
-}
+})
 
 local lsputil = require('lspconfig/util')
-require('lspconfig')['bicep'].setup {
+require('lspconfig')['bicep'].setup({
     capabilities = capabilities,
     on_attach = on_attach,
     cmd = { "dotnet", "/usr/local/bin/bicep-langserver/Bicep.LangServer.dll" },
     filetypes = { "bicep" },
     root_dir = lsputil.root_pattern(".git"),
-}
+})
 
-require("lspconfig")["tsserver"].setup {
+require("lspconfig")["tsserver"].setup({
     capabilities = capabilities,
     on_attach = on_attach,
-}
+})
 
-require("lspconfig")["html"].setup {
+require("lspconfig")["html"].setup({
     capabilities = capabilities,
     on_attach = on_attach,
-}
+})
 
-require("lspconfig")["cssls"].setup {
+require("lspconfig")["cssls"].setup({
     capabilities = capabilities,
     on_attach = on_attach,
-}
+})
 
-require("lspconfig")["jsonls"].setup {
+require("lspconfig")["jsonls"].setup({
     capabilities = capabilities,
     on_attach = on_attach,
-}
+})
 
 -- -----------------------------
 -- ---      TOGGLETERM       ---
 -- -----------------------------
 
-require('toggleterm').setup {
+require('toggleterm').setup({
     size = 20,
     open_mapping = [[<c-\>]],
     hide_numbers = true,
     direction = 'horizontal',
     close_on_exit = false,
-}
+})
 
 -- keybindings
 -- sends the whole line where you are standing with your cursor
@@ -607,13 +619,16 @@ vim.keymap.set("n", "<C-K><S-K>", "<cmd>resize +4<CR>")
 vim.keymap.set("n", "<C-J><S-J>", "<cmd>resize -4<CR>")
 
 -- telescope
-vim.keymap.set("n", "<C-f>", "<cmd>Telescope find_files<cr>")
-vim.keymap.set("n", "<leader>fh", "<cmd>Telescope find_files hidden=true<cr>")
-vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
-vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<cr>")
-vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>")
-vim.keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>")
-vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>")
+local ts_builtin = require('telescope.builtin')
+vim.keymap.set("n", "<C-f>", ts_builtin.find_files)
+vim.keymap.set("n", "<leader>ff", function() ts_builtin.find_files({ no_ignore = true, hidden = true }) end)
+vim.keymap.set("n", "<leader>fg", ts_builtin.live_grep)
+vim.keymap.set("n", "<leader>b", ts_builtin.buffers)
+vim.keymap.set("n", "<leader>fh", ts_builtin.help_tags)
+vim.keymap.set("n", "<leader>fd", ts_builtin.diagnostics)
+vim.keymap.set("n", "<leader>gc", ts_builtin.git_commits)
+vim.keymap.set("n", "<leader>qf", ts_builtin.quickfix)
+vim.keymap.set("n", "<leader>gs", ts_builtin.git_status)
 
 -- todo-comments
 vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIXME<cr>")
