@@ -1,0 +1,66 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+final_space: true
+version: 2
+blocks:
+  - type: prompt
+    alignment: left
+    segments:
+      - type: path
+        style: plain
+        foreground: cyan
+        properties:
+          style: letter
+      - type: git
+        style: plain
+        foreground: green
+        template: "({{ .HEAD }})"
+        properties:
+          branch_icon: ""
+  - type: prompt
+    alignment: right
+    segments:
+      - type: executiontime
+        style: plain
+        foreground: 'cyan'
+        template: "[{{ .FormattedMs }}]"
+        properties:
+          style: austin
+          threshold: 500
+      - type: time
+        style: plain
+        foreground: red
+      - type: text
+        style: plain
+        foreground: "#C35214"
+        template: "[{{ .Shell }}]"
+        foreground_templates:
+          - '{{ if eq .Shell "pwsh" }}#012456{{ end }}'
+  - type: prompt
+    alignment: left
+    newline: true
+    segments:
+      - type: text
+        style: plain
+        # template: "\u276f"
+        template: "\u2022"
+        foreground: blue
+        foreground_templates:
+          - '{{ if gt .Code 0 }}red{{ end }}'
+      - type: text
+        style: plain
+        template: "\u2022"
+        foreground: green
+        foreground_templates:
+          - '{{ if gt .Code 0 }}blue{{ end }}'
+      - type: text
+        style: plain
+        template: "\u2022"
+        foreground: yellow
+        foreground_templates:
+          - '{{ if gt .Code 0 }}green{{ end }}'
+      - type: text
+        style: plain
+        template: "\u2022"
+        foreground: red
+        foreground_templates:
+          - '{{ if gt .Code 0 }}yellow{{end}}'
