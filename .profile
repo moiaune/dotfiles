@@ -32,7 +32,7 @@ export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
 OH_MY_POSH_THEMES_DIR="$HOME/.oh-my-posh/themes"
-eval "$(oh-my-posh init bash --config "$OH_MY_POSH_THEMES_DIR"/milbo.omp.yml)"
+eval "$(oh-my-posh init bash --config "$OH_MY_POSH_THEMES_DIR"/google.omp.yml)"
 
 function mkcd()
 {
