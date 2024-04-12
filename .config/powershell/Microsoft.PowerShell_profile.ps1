@@ -6,7 +6,6 @@ using namespace System.Management.Automation.Language
 # -----------------------------------------------------------------------------
 
 # Import-Module -Name Get-ChildItemColor
-Import-Module -Name Terminal-Icons
 Import-Module -Name PSFzf
 Import-Module -Name posh-git
 
@@ -14,7 +13,7 @@ Import-Module -Name posh-git
 #     - PROMPT -
 # -----------------------------------------------------------------------------
 
-oh-my-posh init pwsh --config "~/.oh-my-posh/themes/milbo.omp.yml" | Invoke-Expression
+oh-my-posh init pwsh --config "~/.oh-my-posh/themes/google.omp.yml" | Invoke-Expression
 
 # -----------------------------------------------------------------------------
 #     - ENVIRONMENT VARIABLES -
@@ -61,6 +60,10 @@ function Open-Note {
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineKeyHandler -Chord "Ctrl+f" -Function ForwardWord
+Set-PSReadLineKeyHandler -Chord "Alt+RightArrow" -Function ForwardWord
+Set-PSReadLineKeyHandler -Chord "Alt+LeftArrow" -Function BackwardWord
+Set-PSReadLineKeyHandler -Chord "Alt+LeftArrow" -Function BackwardWord
+Set-PSReadLineKeyHandler -Chord "Ctrl+Backspace" -Function DeleteWord
 
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 
@@ -118,6 +121,11 @@ Set-PSReadLineOption -AddToHistoryHandler {
 # $PSStyle.FileInfo.Extension['.psm1']   = "`e[36m"
 
 Set-PSReadLineOption -Colors @{ Member = "`e[95m"; Number = "`e[95m" }
+Set-PSReadLineOption -Colors @{
+    Member    = "`e[95m"
+    Parameter = "`e[97m"
+    Number    = "`e[97m"
+}
 
 
 # -----------------------------------------------------------------------------
@@ -128,6 +136,9 @@ Set-Alias -Name ll -Value ListFilesAndFolders
 
 function ListAllFilesAndFolders { param([string]$path = ".") Get-ChildItem -Path $path -Force }
 Set-Alias -Name la -Value ListAllFilesAndFolders
+
+function ListAllFilesAndFoldersSorted { param([string]$path = ".") Get-ChildItem -Path $path -Force | Sort-Object LastWriteTime }
+Set-Alias -Name lss -Value ListAllFilesAndFoldersSorted
 
 function GitCommitAlias { git commit -m $args[0] }
 Set-Alias -Name gcmm -Value GitCommitAlias
