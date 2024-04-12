@@ -5,6 +5,14 @@ blocks:
   - type: prompt
     alignment: left
     segments:
+      - type: text
+        style: plain
+        foreground: magenta
+        template: "[{{ .Shell }}]"
+      - type: python
+        style: plain
+        foreground: yellow
+        template: "[{{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }}{{ end }}{{ end }}]"
       - type: path
         style: plain
         foreground: cyan
@@ -29,12 +37,6 @@ blocks:
       - type: time
         style: plain
         foreground: red
-      - type: text
-        style: plain
-        foreground: "#C35214"
-        template: "[{{ .Shell }}]"
-        foreground_templates:
-          - '{{ if eq .Shell "pwsh" }}#012456{{ end }}'
   - type: prompt
     alignment: left
     newline: true
@@ -42,25 +44,7 @@ blocks:
       - type: text
         style: plain
         # template: "\u276f"
-        template: "\u2022"
-        foreground: blue
-        foreground_templates:
-          - '{{ if gt .Code 0 }}red{{ end }}'
-      - type: text
-        style: plain
-        template: "\u2022"
+        template: "$"
         foreground: green
         foreground_templates:
-          - '{{ if gt .Code 0 }}blue{{ end }}'
-      - type: text
-        style: plain
-        template: "\u2022"
-        foreground: yellow
-        foreground_templates:
-          - '{{ if gt .Code 0 }}green{{ end }}'
-      - type: text
-        style: plain
-        template: "\u2022"
-        foreground: red
-        foreground_templates:
-          - '{{ if gt .Code 0 }}yellow{{end}}'
+          - '{{ if gt .Code 0 }}red{{ end }}'
