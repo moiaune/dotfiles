@@ -101,27 +101,6 @@ vim.opt.list = true
 vim.g.loaded_perl_provider = 0
 
 -- -----------------------------
--- ---     THEME SETTINGS    ---
--- -----------------------------
-
--- vim.opt.background = 'light'
--- vim.cmd [[
---     colorscheme edge
--- ]]
-
-vim.g.everforest_background = 'hard'
-vim.g.everforest_transparent_background = 1
-vim.g.everforest_diagnostic_virtual_text = 'colored'
-vim.g.everforest_enable_italic = 1
-vim.g.everforest_diagnostic_text_highlight = 0
-vim.g.everforest_diagnostic_line_highlight = 0
-vim.g.everforest_better_performance = 1
-vim.opt.background = 'dark'
-vim.cmd [[
-    colorscheme everforest
-]]
-
--- -----------------------------
 -- ---    PLUGINS (PACKER)   ---
 -- -----------------------------
 
@@ -138,6 +117,10 @@ require('packer').startup(function(use)
     use 'arcticicestudio/nord-vim'
     use 'jeffkreeftmeijer/vim-dim'
     use 'sainnhe/edge'
+    use 'folke/tokyonight.nvim'
+    use "EdenEast/nightfox.nvim"
+    use "olimorris/onedarkpro.nvim"
+    use "ellisonleao/gruvbox.nvim"
 
     -- lsp
     use 'neovim/nvim-lspconfig'
@@ -632,6 +615,32 @@ vim.keymap.set("n", "<leader>gs", ts_builtin.git_status)
 
 -- todo-comments
 vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIXME<cr>")
+
+-- -----------------------------
+-- ---     THEME SETTINGS    ---
+-- -----------------------------
+
+require('nightfox').setup({
+    options = {
+        styles = {
+            comments = "italic",
+        },
+    },
+})
+
+vim.opt.background = 'dark'
+-- vim.opt.background = 'light'
+-- vim.g.everforest_background = 'hard'
+-- vim.g.everforest_transparent_background = 1
+-- vim.g.everforest_diagnostic_virtual_text = 'colored'
+-- vim.g.everforest_enable_italic = 1
+-- vim.g.everforest_diagnostic_text_highlight = 0
+-- vim.g.everforest_diagnostic_line_highlight = 0
+-- vim.g.everforest_better_performance = 1
+
+vim.cmd [[
+    colorscheme gruvbox
+]]
 
 -- -----------------------------
 -- ---      COMMANDS       ---
