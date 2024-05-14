@@ -67,6 +67,7 @@ alias gcm='git commit -m'
 alias gsa='git status -uall'
 alias gps='git push'
 alias gap='git add -p'
+alias gpf='git pull && git fetch --prune'
 
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
