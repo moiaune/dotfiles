@@ -100,6 +100,9 @@ vim.opt.list = true
 -- disable unused modules
 vim.g.loaded_perl_provider = 0
 
+-- recognize terraform filetypes
+vim.cmd([[autocmd BufRead,BufNewFile *.tf,*.tfvars set filetype=terraform]])
+
 -- -----------------------------
 -- ---    PLUGINS (PACKER)   ---
 -- -----------------------------
@@ -279,24 +282,6 @@ require('lualine').setup({
     }
 })
 
--- -----------------------------
--- ---    TODO-COMMENTS      ---
--- -----------------------------
-
-require("todo-comments").setup({
-    signs = false,
-    gui_style = {
-        fg = "ITALIC",
-    },
-    merge_keywords = false,
-    highlight = {
-        multiline = true,
-        before = "fg",
-        keyword = "bg",
-        after = "fg",
-        comments_only = true,
-    },
-})
 
 -- -----------------------------
 -- ---        MASON          ---
@@ -454,10 +439,11 @@ require("lspconfig")["terraformls"].setup({
 
         -- Mappings.
         local bufopts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set('n', 'gd', "<cmd>Telescope lsp_definitions<CR>", bufopts)
         vim.keymap.set('n', 'gr', "<cmd>Telescope lsp_references<CR>", bufopts)
         vim.keymap.set('n', 'gi', "<cmd>Telescope lsp_implementations<CR>", bufopts)
+        vim.keymap.set('n', 'gd', "<cmd>Telescope lsp_definitions<CR>", bufopts)
         vim.keymap.set('n', '<space>D', "<cmd>Telescope lsp_type_definitions<CR>", bufopts)
+        vim.keymap.set("n", "<space>v", "<cmd>vsplit | Telescope lsp_definitions<CR>") -- open definitions in vertical split
         vim.keymap.set('n', '<space>d', "<cmd>Telescope diagnostics<CR>", bufopts)
 
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -565,6 +551,9 @@ vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("n", "<C-a>", "<C-o>", { noremap = false })
 
+-- copy the whole file and stay where you are
+vim.keymap.set("n", "<leader>yy", "ggVGy<C-o>")
+
 -- move visual line(s) up and down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -643,12 +632,36 @@ vim.opt.background = 'dark'
 -- vim.g.everforest_diagnostic_line_highlight = 0
 -- vim.g.everforest_better_performance = 1
 
-vim.cmd [[
-    colorscheme gruvbox
-]]
+-- -----------------------------
+-- ---  ACTIVATE COLORSCHEME ---
+-- -----------------------------
+-- vim.cmd("colorscheme onelight")
+vim.cmd("colorscheme gruvbox")
 
 -- -----------------------------
--- ---      COMMANDS       ---
+-- ---    TODO-COMMENTS      ---
+-- -----------------------------
+
+require("todo-comments").setup({
+    signs = false,
+    gui_style = {
+        fg = "ITALIC",
+    },
+    merge_keywords = false,
+    highlight = {
+        multiline = true,
+        before = "bg",
+        keyword = "wide",
+        after = "fg",
+        comments_only = true,
+    },
+    keywords = {
+        TODO = { color = "warning" }
+    },
+})
+
+-- -----------------------------
+-- ---       COMMANDS        ---
 -- -----------------------------
 
 -- you might have to force true color when using regular vim inside tmux as the
@@ -665,6 +678,3 @@ vim.cmd("au FocusGained,BufEnter * :checktime")
 
 -- avoid human error
 vim.cmd("command! W w")
-
--- alias for powershell formatter
--- vim.cmd("command! Pwshf PWSHFORMAT")

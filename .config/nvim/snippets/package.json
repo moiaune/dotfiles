@@ -36,6 +36,13 @@
                     "tf"
                 ],
                 "path": "./terraform.json"
+            },
+            {
+                "language": [
+                    "yaml",
+                    "yml"
+                ],
+                "path": "./yaml.json"
             }
         ]
     }
