@@ -3,6 +3,7 @@ import = [
     # "~/.config/alacritty/themes/atom_one_light.toml"
     # "~/.config/alacritty/themes/everforest_dark.toml"
     "~/.config/alacritty/themes/gruvbox_dark.toml"
+    # "~/.config/alacritty/themes/github_light.toml"
 ]
 
 [env]
@@ -17,7 +18,7 @@ history = 10000
 
 [window]
 padding = { x = 5, y = 5 }
-decorations = "None"
+decorations = "Full"
 dimensions = { columns = 180, lines = 60 }
 # startup_mode = "Maximized"
 
@@ -26,6 +27,10 @@ style = { shape = "Block", blinking = "On" }
 
 [font]
 size = 16.0
+normal = { family = "JetBrains Mono", style = "Regular" }
+bold = { family = "JetBrains Mono", style = "Bold" }
+italic = { family = "JetBrains Mono", style = "Italic" }
+bold_italic = { family = "JetBrains Mono", style = "Bold Italic" }
 
 [selection]
 save_to_clipboard = true
