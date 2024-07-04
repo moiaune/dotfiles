@@ -13,7 +13,7 @@ vim.cmd [[
 ]]
 
 -- load bash profile in neovim terminal
-vim.o.shell = "/usr/local/bin/bash -l"
+vim.o.shell = "/bin/zsh"
 
 vim.opt.encoding = 'utf-8'
 vim.o.termguicolors = true
@@ -115,15 +115,9 @@ require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     -- themes
-    use 'tanvirtin/monokai.nvim'
     use 'sainnhe/everforest'
-    use 'arcticicestudio/nord-vim'
-    use 'jeffkreeftmeijer/vim-dim'
-    use 'sainnhe/edge'
-    use 'folke/tokyonight.nvim'
-    use "EdenEast/nightfox.nvim"
-    use "olimorris/onedarkpro.nvim"
     use "ellisonleao/gruvbox.nvim"
+
 
     -- lsp
     use 'neovim/nvim-lspconfig'
@@ -142,9 +136,6 @@ require('packer').startup(function(use)
     use 'nvim-lua/plenary.nvim'
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use 'nvim-telescope/telescope.nvim'
-
-    -- formatter for Powershell
-    use 'JayDoubleu/vim-pwsh-formatter'
 
     -- fzf
     use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
@@ -245,16 +236,6 @@ require('nvim-treesitter.configs').setup({
 require('lualine').setup({
     options = {
         theme = 'auto',
-        -- theme = {
-        --     normal = {
-        --         a = { fg = "black", bg = "yellow" },
-        --         b = { fg = "yellow", bg = "black" },
-        --         c = { fg = "white", bg = "black" },
-        --         x = { fg = "white", bg = "black" },
-        --         y = { fg = "white", bg = "black" },
-        --         z = { fg = "white", bg = "black" },
-        --     },
-        -- },
         icons_enabled = true,
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
@@ -281,7 +262,6 @@ require('lualine').setup({
         } },
     }
 })
-
 
 -- -----------------------------
 -- ---        MASON          ---
@@ -614,16 +594,7 @@ vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope keywords=TODO,FIXME<cr>")
 -- ---     THEME SETTINGS    ---
 -- -----------------------------
 
-require('nightfox').setup({
-    options = {
-        styles = {
-            comments = "italic",
-        },
-    },
-})
-
 vim.opt.background = 'dark'
--- vim.opt.background = 'light'
 -- vim.g.everforest_background = 'hard'
 -- vim.g.everforest_transparent_background = 1
 -- vim.g.everforest_diagnostic_virtual_text = 'colored'
@@ -632,10 +603,6 @@ vim.opt.background = 'dark'
 -- vim.g.everforest_diagnostic_line_highlight = 0
 -- vim.g.everforest_better_performance = 1
 
--- -----------------------------
--- ---  ACTIVATE COLORSCHEME ---
--- -----------------------------
--- vim.cmd("colorscheme onelight")
 vim.cmd("colorscheme gruvbox")
 
 -- -----------------------------
