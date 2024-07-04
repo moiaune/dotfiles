@@ -11,8 +11,8 @@ export EDITOR=nvim
 export VISUAL=code
 export TERMINAL=alacritty
 
-export LC_ALL=en_US.utf8
-export LANG=en_US.utf8
+# export LC_ALL=en_US.utf8
+# export LANG=en_US.utf8
 export TERM="xterm-256color"
 
 export HISTSIZE=10000

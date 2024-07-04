@@ -1,3 +1,6 @@
+echo "... Loading .zshrc"
+ZSH_DISABLE_COMPFIX=true
+
 # --- PLUGINS
 plugins=(
     "$XDG_CONFIG_HOME/zsh/zsh.d/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
@@ -54,7 +57,12 @@ eval "$(oh-my-posh init zsh --config $XDG_CONFIG_HOME/oh-my-posh/config.yml)"
 zstyle ':completion:*:*:git:*' script "$XDG_CONFIG_HOME/zsh/zsh.d/completion/git-completion.bash"
 fpath=("$XDG_CONFIG_HOME/zsh/zsh.d/completion" $fpath)
 
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+
+ZSH_COMPDUMP="${XDG_CACHE_HOME:-~/.cache}/zsh/zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
+compinit -i -d "${ZSH_COMPDUMP}"
 
 # --- AUTO COMPLETE
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+. "$HOME/.cargo/env"
