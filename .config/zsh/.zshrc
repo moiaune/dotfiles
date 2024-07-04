@@ -49,7 +49,7 @@ alias gap="git add -p"
 alias gpf="git pull && git fetch --prune"
 
 # --- PROMPT
-eval "$(oh-my-posh init zsh --config $XDG_CONFIG_HOME/oh-my-posh/themes/google.omp.yml)"
+eval "$(oh-my-posh init zsh --config $XDG_CONFIG_HOME/oh-my-posh/config.yml)"
 
 # --- AUTO COMPLETE
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
