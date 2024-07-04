@@ -1,6 +1,0 @@
-[submodule ".config/zsh/zsh.d/zsh-history-substring-search"]
-	path = .config/zsh/zsh.d/zsh-history-substring-search
-	url = git@github.com:zsh-users/zsh-history-substring-search.git
-[submodule ".config/zsh/zsh.d/zsh-autosuggestions"]
-	path = .config/zsh/zsh.d/zsh-autosuggestions
-	url = git@github.com:zsh-users/zsh-autosuggestions.git
