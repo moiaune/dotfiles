@@ -51,6 +51,17 @@ alias gps="git push"
 alias gap="git add -p"
 alias gpf="git pull && git fetch --prune"
 
+
+ddg(){
+    FF_ARGS=$(echo "$*" | tr \! "\!")
+
+    if [[ $(uname) == "Darwin" ]]; then
+        open -a firefox -g "http://duckduckgo.com/?q=$FF_ARGS"
+    else
+        firefox -g "http://duckduckgo.com/?q=$FF_ARGS"
+    fi
+}
+
 # --- PROMPT
 eval "$(oh-my-posh init zsh --config $XDG_CONFIG_HOME/oh-my-posh/config.yml)"
 
