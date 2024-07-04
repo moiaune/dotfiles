@@ -51,5 +51,10 @@ alias gpf="git pull && git fetch --prune"
 # --- PROMPT
 eval "$(oh-my-posh init zsh --config $XDG_CONFIG_HOME/oh-my-posh/config.yml)"
 
+zstyle ':completion:*:*:git:*' script "$XDG_CONFIG_HOME/zsh/zsh.d/completion/git-completion.bash"
+fpath=("$XDG_CONFIG_HOME/zsh/zsh.d/completion" $fpath)
+
+autoload -Uz compinit && compinit
+
 # --- AUTO COMPLETE
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
